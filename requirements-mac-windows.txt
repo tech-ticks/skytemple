@@ -5,7 +5,7 @@ pmdsky-debug-py
 skytemple-dtef==1.6.1
 skytemple-icons==1.3.2
 range-typed-integers >= 1.0.0
-pycairo==1.18.2; sys_platform != "win32"
+pycairo==1.25.1; sys_platform != "win32"
 natsort==8.4.0
 tilequant==1.1.0
 skytemple-ssb-debugger==1.6.2
