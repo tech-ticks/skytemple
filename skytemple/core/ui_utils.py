@@ -1,4 +1,5 @@
 """UI utilities."""
+
 #  Copyright 2020-2023 Capypara and the SkyTemple Contributors
 #
 #  This file is part of SkyTemple.
@@ -53,7 +54,11 @@ def assert_not_none(obj: X | None) -> X:
 
 
 def builder_get_assert(builder: Gtk.Builder, typ: type[T], name: str) -> T:
-    obj = builder.get_object(name)
+    try:
+        obj = builder.get_object(name)
+    except AttributeError as e:
+        # This can happen if called in some unload scenarios, we also treat this as an assertion failure.
+        raise AssertionError("Builder was not valid") from e
     if UI_ASSERT:
         assert isinstance(obj, typ)
         return obj
@@ -191,13 +196,11 @@ def glib_async(f):
 @overload
 def catch_overflow(
     typ: type[u8] | type[u16] | type[u32] | type[i8] | type[i16] | type[i32],
-):
-    ...
+): ...
 
 
 @overload
-def catch_overflow(range_start: int, range_end: int):
-    ...
+def catch_overflow(range_start: int, range_end: int): ...
 
 
 def catch_overflow(typ_or_range_start, range_end=None):

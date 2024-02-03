@@ -1,4 +1,5 @@
 """Sub-controller for the map bg menu."""
+
 #  Copyright 2020-2023 Capypara and the SkyTemple Contributors
 #
 #  This file is part of SkyTemple.
@@ -25,6 +26,7 @@ from typing import TYPE_CHECKING, List, Optional, Tuple
 from collections.abc import Sequence, MutableSequence
 
 from range_typed_integers import u16, u16_checked
+from skytemple_files.user_error import UserValueError
 
 from skytemple.core.error_handler import display_error
 from skytemple.core.message_dialog import SkyTempleMessageDialog
@@ -361,7 +363,7 @@ class BgMenuController:
                         img1.load()
                         if img1.mode == "P":
                             if len(img1.palette.palette) < 768:
-                                raise ValueError(
+                                raise UserValueError(
                                     _(
                                         "The image for the first layer has less than 256 colors. Please make sure the image contains 256 colors, even if less are used."
                                     )
@@ -372,7 +374,7 @@ class BgMenuController:
                         img2.load()
                         if img2.mode == "P":
                             if len(img2.palette.palette) < 768:
-                                raise ValueError(
+                                raise UserValueError(
                                     _(
                                         "The image for the second layer has less than 256 colors. Please make sure the image contains 256 colors, even if less are used."
                                     )
@@ -432,9 +434,9 @@ class BgMenuController:
                 new_chunk_size
                 > self.parent.bpc.layers[bpc_layer_to_use].chunk_tilemap_len
             ):
-                self.parent.bpc.layers[
-                    bpc_layer_to_use
-                ].chunk_tilemap_len = new_chunk_size
+                self.parent.bpc.layers[bpc_layer_to_use].chunk_tilemap_len = (
+                    new_chunk_size
+                )
             self.parent.bpc.layers[bpc_layer_to_use].tilemap = edited_mappings.copy()
             self.parent.reload_all()
             self.parent.mark_as_modified()
@@ -472,9 +474,9 @@ class BgMenuController:
                     new_chunk_size
                     > self.parent.bpc.layers[bpc_layer_to_use].chunk_tilemap_len
                 ):
-                    self.parent.bpc.layers[
-                        bpc_layer_to_use
-                    ].chunk_tilemap_len = new_chunk_size
+                    self.parent.bpc.layers[bpc_layer_to_use].chunk_tilemap_len = (
+                        new_chunk_size
+                    )
                 self.parent.bpc.layers[bpc_layer_to_use].tilemap = edited_mappings
                 self.parent.reload_all()
                 self.parent.mark_as_modified()
